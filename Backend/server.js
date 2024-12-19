@@ -12,6 +12,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",       // Local frontend
   "https://esl.aminenotes.com", // Production frontend
+  "http://192.168.1.223:58139",  // Your local network IP
 ];
 
 // CORS Configuration
