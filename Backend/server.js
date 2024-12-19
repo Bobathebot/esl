@@ -1,4 +1,3 @@
-// server.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -10,8 +9,17 @@ const { Server } = require("socket.io");
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  "http://localhost:3000", // Local frontend
+  "https://esl.aminenotes.com", // Production frontend
+];
 app.use(cors({
-  origin: "http://localhost:3000", // Frontend URL
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Not allowed by CORS"));
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
 }));
 app.use(bodyParser.json());
@@ -20,7 +28,7 @@ app.use(bodyParser.json());
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Frontend URL
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -42,7 +50,10 @@ io.on("connection", (socket) => {
 
 // Database connection
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/school_dashboard")
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -59,10 +70,10 @@ app.use("/api", authRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/exams", examRoutes);
-app.use("/api/submissions", submissionRoutes); // Make sure handlers exist here
+app.use("/api/submissions", submissionRoutes);
 app.use("/api/performance", performanceRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 // Start the server
-const PORT = 5001;
-server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 5001;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
