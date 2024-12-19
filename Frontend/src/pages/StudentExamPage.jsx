@@ -23,7 +23,7 @@ const StudentExamPage = () => {
 
     const fetchExam = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/exams/${examId}`);
+        const response = await axios.get(`https://esl-an62.onrender.com/api/exams/${examId}`);
         if (response.data.success) {
           setExam(response.data.exam);
           setTimeLeft(response.data.exam.duration * 60); // Duration in seconds
@@ -74,7 +74,7 @@ const StudentExamPage = () => {
     }));
 
     try {
-      const response = await axios.post("http://localhost:5001/api/submissions", {
+      const response = await axios.post("https://esl-an62.onrender.com/api/submissions", {
         email: studentEmail,
         examId: exam._id,
         answers: submissionAnswers

@@ -10,7 +10,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:5001/api/login", { email, password });
+      const response = await axios.post("https://esl-an62.onrender.com/api/login", { email, password });
       if (response.data.success && response.data.role === "teacher") {
         navigate("/teacher");
       } else {

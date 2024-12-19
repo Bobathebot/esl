@@ -19,7 +19,7 @@ const Performance = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:5001/api/performance/${studentIdInput}`);
+      const response = await axios.get(`https://esl-an62.onrender.com/api/performance/${studentIdInput}`);
       if (response.data.success) {
         setSubmissions(response.data.submissions);
       } else {

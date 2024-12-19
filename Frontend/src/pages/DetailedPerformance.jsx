@@ -13,7 +13,7 @@ const DetailedPerformance = () => {
     // Fetch student performance data
     const fetchPerformance = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/performance/${studentId}`);
+        const response = await axios.get(`https://esl-an62.onrender.com/api/performance/${studentId}`);
         if (response.data.success) {
           setSubmissions(response.data.submissions);
         } else {

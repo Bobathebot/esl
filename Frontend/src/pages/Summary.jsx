@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 
-const socket = io("http://127.0.0.1:5001");
+const socket = io("https://esl-an62.onrender.com");
 
 const Summary = () => {
   const [summary, setSummary] = useState({ enrolledStudents: 0, totalSubmissions: 0, remaining: 0 });
@@ -28,8 +28,8 @@ const Summary = () => {
   const fetchSummaryData = async () => {
     try {
       const [studentsRes, submissionsRes] = await Promise.all([
-        axios.get("http://127.0.0.1:5001/api/students"),
-        axios.get("http://127.0.0.1:5001/api/submissions"),
+        axios.get("https://esl-an62.onrender.com/api/students"),
+        axios.get("https://esl-an62.onrender.com/api/submissions"),
       ]);
 
       const enrolledStudents = studentsRes.data.length;

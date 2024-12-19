@@ -24,7 +24,7 @@ const ManageQuestions = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/questions");
+        const response = await axios.get("https://esl-an62.onrender.com/api/questions");
         const allQ = response.data;
         setQuestions(allQ.filter((q) => !q.archived));
         setArchivedQuestions(allQ.filter((q) => q.archived));
@@ -48,7 +48,7 @@ const ManageQuestions = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5001/api/questions", {
+      const response = await axios.post("https://esl-an62.onrender.com/api/questions", {
         question: addQuestionForm.question,
         category: addQuestionForm.category
       });
@@ -70,7 +70,7 @@ const ManageQuestions = () => {
 
   const archiveQuestion = async (id) => {
     try {
-      const response = await axios.patch(`http://localhost:5001/api/questions/${id}/archive`);
+      const response = await axios.patch(`https://esl-an62.onrender.com/api/questions/${id}/archive`);
       if (response.data.success) {
         const updatedQuestion = response.data.question;
         if (updatedQuestion.archived) {
@@ -92,7 +92,7 @@ const ManageQuestions = () => {
   const deleteQuestion = async (id) => {
     if (!window.confirm("Are you sure you want to delete this question?")) return;
     try {
-      const response = await axios.delete(`http://localhost:5001/api/questions/${id}`);
+      const response = await axios.delete(`https://esl-an62.onrender.com/api/questions/${id}`);
       if (response.data.success) {
         setQuestions((prev) => prev.filter((q) => q._id !== id));
         setArchivedQuestions((prev) => prev.filter((q) => q._id !== id));
@@ -132,7 +132,7 @@ const ManageQuestions = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5001/api/exams", {
+      const response = await axios.post("https://esl-an62.onrender.com/api/exams", {
         questionIds: selectedQuestions,
         deadline,
         duration,

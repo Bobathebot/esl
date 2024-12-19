@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io("http://127.0.0.1:5001");
+const socket = io("https://esl-an62.onrender.com");
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -12,7 +12,7 @@ const Notifications = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5001/api/notifications");
+        const response = await axios.get("https://esl-an62.onrender.com/api/notifications");
         setNotifications(response.data);
       } catch (err) {
         console.error("Failed to fetch notifications:", err);
@@ -50,7 +50,7 @@ const Notifications = () => {
 
   const markAsRead = async (id) => {
     try {
-      await axios.patch(`http://127.0.0.1:5001/api/notifications/${id}/read`);
+      await axios.patch(`https://esl-an62.onrender.com/api/notifications/${id}/read`);
       setNotifications((prev) =>
         prev.map((notif) =>
           notif._id === id ? { ...notif, read: true } : notif
@@ -67,7 +67,7 @@ const Notifications = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:5001/api/notifications/${id}`);
+      await axios.delete(`https://esl-an62.onrender.com/api/notifications/${id}`);
       setNotifications((prev) => prev.filter((notif) => notif._id !== id));
     } catch (err) {
       console.error("Failed to delete notification:", err);

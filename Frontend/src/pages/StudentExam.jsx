@@ -19,7 +19,7 @@ const StudentExam = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5001/api/exams/${link}`, {
+        const response = await axios.get(`https://esl-an62.onrender.com/api/exams/${link}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -60,7 +60,7 @@ const StudentExam = () => {
     try {
       // Submit answers to the backend
       const response = await axios.post(
-        `http://localhost:5001/api/exams/${link}/submit`,
+        `https://esl-an62.onrender.com/api/exams/${link}/submit`,
         { answers },
         { headers: { Authorization: `Bearer ${token}` } }
       );

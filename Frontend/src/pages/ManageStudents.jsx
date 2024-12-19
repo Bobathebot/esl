@@ -17,7 +17,7 @@ const ManageStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/students");
+        const response = await axios.get("https://esl-an62.onrender.com/api/students");
         setStudents(response.data);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -47,7 +47,7 @@ const ManageStudents = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5001/api/students", {
+      const response = await axios.post("https://esl-an62.onrender.com/api/students", {
         email,
         name,
         studentId,

@@ -11,7 +11,7 @@ const StudentLoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:5001/api/students/validate', { email, studentId });
+      const response = await axios.post('https://esl-an62.onrender.com/api/students/validate', { email, studentId });
       if (response.data.success) {
         sessionStorage.setItem('studentEmail', email);
         sessionStorage.setItem('studentId', studentId);
