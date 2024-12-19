@@ -12,7 +12,11 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",       // Local frontend
   "https://esl.aminenotes.com", // Production frontend
-  "http://192.168.1.223:58139",  // Your local network IP
+  "http://192.168.1.223:58139", 
+  "https://esl-bobathebots-projects.vercel.app", 
+  "esl-three.vercel.app", 
+  "esl-b174bhj2y-bobathebots-projects.vercel.app", 
+  "esl-git-master-bobathebots-projects.vercel.app",  // Your local network IP
 ];
 
 // CORS Configuration
