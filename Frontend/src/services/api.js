@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = "https://esl-an62.onrender.com/api";
+const API_BASE_URL = "https://esl-an62.onrender.com";
 
 export const loginTeacher = (email, password) => axios.post(`${API_BASE_URL}/login`, { email, password });
 export const getQuestions = () => axios.get(`${API_BASE_URL}/questions`);
