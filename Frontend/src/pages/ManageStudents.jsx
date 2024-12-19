@@ -72,7 +72,7 @@ const ManageStudents = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete(`http://localhost:5001/api/students/${id}`);
+      const response = await axios.delete(`https://esl-an62.onrender.com/api/students/${id}`);
       if (response.data.success) {
         setStudents(students.filter((student) => student._id !== id));
       } else {

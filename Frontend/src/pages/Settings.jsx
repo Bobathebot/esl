@@ -14,7 +14,7 @@ const Settings = () => {
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/teacher/profile");
+        const response = await axios.get("https://esl-an62.onrender.com/api/teacher/profile");
         if (response.data.success) {
           setTeacherData({
             name: response.data.teacher.name,
@@ -58,7 +58,7 @@ const Settings = () => {
         payload.password = password;
       }
 
-      const response = await axios.put("http://localhost:5001/api/teacher/profile", payload);
+      const response = await axios.put("https://esl-an62.onrender.com/api/teacher/profile", payload);
 
       if (response.data.success) {
         setSuccess("Profile updated successfully.");

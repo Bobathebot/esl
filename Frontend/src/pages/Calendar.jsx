@@ -13,7 +13,7 @@ const CalendarPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/exams");
+        const response = await axios.get("https://esl-an62.onrender.com/api/exams");
         const formattedEvents = response.data.map((exam) => ({
           title: `Exam: ${exam.link}`,
           start: new Date(exam.deadline),
