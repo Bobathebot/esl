@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { io } from "socket.io-client";
 import LoginPage from "./pages/LoginPage";
 import TeacherDashboardLayout from "./components/TeacherDashboardLayout";
 import StudentDashboard from "./pages/StudentDashboard"; // If needed
@@ -14,6 +16,29 @@ import StudentLoginPage from "./pages/StudentLoginPage";
 import StudentExamPage from "./pages/StudentExamPage";
 
 function App() {
+  useEffect(() => {
+    const socket = io("https://esl-an62.onrender.com", {
+      transports: ["websocket", "polling"],
+    });
+
+    socket.on("connect", () => {
+      console.log("Connected to Socket.io server", socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from Socket.io server");
+    });
+
+    socket.on("notification", (data) => {
+      console.log("Received notification:", data);
+      // You can implement custom handling of notifications here
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   return (
     <Router>
       <ErrorBoundary>
