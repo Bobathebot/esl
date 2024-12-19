@@ -17,12 +17,16 @@ import StudentExamPage from "./pages/StudentExamPage";
 
 function App() {
   useEffect(() => {
-    const socket = io("https://esl-an62.onrender.com", {
+    const socket = io(process.env.REACT_APP_BACKEND_URL || "https://esl-an62.onrender.com", {
       transports: ["websocket", "polling"],
     });
 
     socket.on("connect", () => {
       console.log("Connected to Socket.io server", socket.id);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.error("Socket.io connection error:", err.message);
     });
 
     socket.on("disconnect", () => {
@@ -31,7 +35,7 @@ function App() {
 
     socket.on("notification", (data) => {
       console.log("Received notification:", data);
-      // You can implement custom handling of notifications here
+      // Handle notification logic here
     });
 
     return () => {
