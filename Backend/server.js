@@ -9,7 +9,12 @@ const { Server } = require("socket.io");
 const app = express();
 
 // Middleware
-const allowedOrigins = (process.env.FRONTEND_URL || "").split(",");
+const allowedOrigins = [
+  "http://localhost:3000",       // Local frontend
+  "https://esl.aminenotes.com", // Production frontend
+  "https://esl-an62.onrender.com",
+  "https://esl.vercel.app",     // Update with your Vercel frontend URL if needed
+];
 
 // CORS Configuration
 app.use(cors({
@@ -21,7 +26,7 @@ app.use(cors({
     return callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true, // Allow cookies and credentials
+  credentials: true,
 }));
 
 // Middleware to parse JSON requests
@@ -82,10 +87,9 @@ app.use("/api/submissions", submissionRoutes);
 app.use("/api/performance", performanceRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-// Redirect /student/exam/:examId to /api/exams/:examId
-app.get("/student/exam/:examId", (req, res) => {
-  const { examId } = req.params;
-  res.redirect(`/api/exams/${examId}`);
+// Redirect to frontend for student exam routes
+app.get("/student/exam/:id", (req, res) => {
+  res.redirect(`${process.env.FRONTEND_URL}/student/exam/${req.params.id}`);
 });
 
 // Default route for unknown paths
