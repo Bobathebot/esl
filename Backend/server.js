@@ -8,14 +8,8 @@ const { Server } = require("socket.io");
 
 const app = express();
 
-// List of allowed origins
-const allowedOrigins = [
-  "http://localhost:3000",       // Local frontend
-  "https://esl.aminenotes.com", // Production frontend
-  "https://esl-bobathebots-projects.vercel.app", // Vercel deployment
-  "https://esl-git-master-bobathebots-projects.vercel.app", // Vercel preview
-  "http://192.168.1.223:58139", // Example local network IP
-];
+// Middleware
+const allowedOrigins = (process.env.FRONTEND_URL || "").split(",");
 
 // CORS Configuration
 app.use(cors({
@@ -87,6 +81,12 @@ app.use("/api/exams", examRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/performance", performanceRoutes);
 app.use("/api/notifications", notificationRoutes);
+
+// Redirect /student/exam/:examId to /api/exams/:examId
+app.get("/student/exam/:examId", (req, res) => {
+  const { examId } = req.params;
+  res.redirect(`/api/exams/${examId}`);
+});
 
 // Default route for unknown paths
 app.use((req, res) => {
