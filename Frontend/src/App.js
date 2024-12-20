@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 import LoginPage from "./pages/LoginPage";
 import TeacherDashboardLayout from "./components/TeacherDashboardLayout";
-import StudentDashboard from "./pages/StudentDashboard"; // If needed
 import ManageQuestions from "./pages/ManageQuestions";
 import ManageStudents from "./pages/ManageStudents";
 import Performance from "./pages/Performance";
@@ -64,9 +63,6 @@ function App() {
           {/* Student Pages */}
           <Route path="/student/login" element={<StudentLoginPage />} />
           <Route path="/student/exam/:examId" element={<StudentExamPage />} />
-          {/* Optional: A student's dashboard or exams listing page if needed:
-              <Route path="/student/exams" element={<StudentDashboard />} />
-          */}
 
           {/* Not Found */}
           <Route path="*" element={<NotFound />} />
