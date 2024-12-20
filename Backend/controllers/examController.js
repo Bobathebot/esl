@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 // Generates a unique exam link using the exam's ID
 const generateUniqueLink = (examId) => {
-  return `http://localhost:3000/student/exam/${examId}`;
+  return `https://esl-an62.onrender.com/student/exam/${examId}`;
 };
 
 exports.createExam = async (req, res) => {
