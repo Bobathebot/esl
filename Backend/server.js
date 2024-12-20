@@ -9,15 +9,7 @@ const { Server } = require("socket.io");
 const app = express();
 
 // Middleware
-const allowedOrigins = [
-  "http://localhost:3000",       // Local frontend
-  "https://esl.aminenotes.com", // Production frontend
-  "http://192.168.1.223:58139", 
-  "https://esl-bobathebots-projects.vercel.app", 
-  "esl-three.vercel.app", 
-  "esl-b174bhj2y-bobathebots-projects.vercel.app", 
-  "esl-git-master-bobathebots-projects.vercel.app",  // Your local network IP
-];
+const allowedOrigins = (process.env.FRONTEND_URL || "").split(",");
 
 // CORS Configuration
 app.use(cors({
