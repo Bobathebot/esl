@@ -7,13 +7,13 @@ const StudentExamPage = () => {
   const navigate = useNavigate();
   const [exam, setExam] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(null);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const studentEmail = sessionStorage.getItem('studentEmail');
-  const studentStudentId = sessionStorage.getItem('studentId');
+  const studentEmail = sessionStorage.getItem("studentEmail");
+  const studentStudentId = sessionStorage.getItem("studentId");
 
   useEffect(() => {
     if (!studentEmail || !studentStudentId) {
@@ -23,16 +23,16 @@ const StudentExamPage = () => {
 
     const fetchExam = async () => {
       try {
-        const response = await axios.get(`https://esl-an62.onrender.com/api/exams/${examId}`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL || "https://esl-an62.onrender.com"}/api/exams/${examId}`);
         if (response.data.success) {
           setExam(response.data.exam);
           setTimeLeft(response.data.exam.duration * 60); // Duration in seconds
         } else {
-          setError('Exam not found.');
+          setError("Exam not found.");
         }
       } catch (err) {
         console.error("Error fetching exam:", err);
-        setError('Failed to load exam.');
+        setError("Failed to load exam.");
       } finally {
         setLoading(false);
       }
@@ -54,7 +54,7 @@ const StudentExamPage = () => {
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
+    return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
   const handleAnswerChange = (questionId, value) => {
@@ -70,18 +70,18 @@ const StudentExamPage = () => {
 
     const submissionAnswers = exam.questions.map((q) => ({
       questionId: q.id,
-      answer: answers[q.id] || ""
+      answer: answers[q.id] || "",
     }));
 
     try {
-      const response = await axios.post("https://esl-an62.onrender.com/api/submissions", {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL || "https://esl-an62.onrender.com"}/api/submissions`, {
         email: studentEmail,
         examId: exam._id,
-        answers: submissionAnswers
+        answers: submissionAnswers,
       });
       if (response.data.success) {
         alert("Exam submitted successfully.");
-        navigate('/student/exams');
+        navigate("/student/exams");
       } else {
         alert("Failed to submit exam.");
       }
@@ -100,7 +100,6 @@ const StudentExamPage = () => {
       <div className="max-w-4xl w-full bg-white rounded-3xl shadow-xl overflow-hidden">
         {!hasStarted ? (
           <>
-            {/* Exam Info Section */}
             <div className="p-8 text-center bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white rounded-t-3xl">
               <h1 className="text-3xl font-bold mb-4">Exam Information</h1>
               <p className="text-lg mb-2">
@@ -119,7 +118,6 @@ const StudentExamPage = () => {
           </>
         ) : (
           <>
-            {/* Exam Section */}
             <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white py-4 px-6 rounded-t-3xl">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl font-bold">Exam</h1>
@@ -148,7 +146,7 @@ const StudentExamPage = () => {
               <button
                 onClick={submitExam}
                 className={`mt-6 w-full py-3 rounded-full text-white font-semibold ${
-                  timeLeft === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600'
+                  timeLeft === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-yellow-500 hover:bg-yellow-600"
                 } transition duration-200 shadow-md`}
                 disabled={timeLeft === 0}
               >
