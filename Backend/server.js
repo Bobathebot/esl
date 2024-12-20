@@ -11,15 +11,9 @@ const app = express();
 // Middleware
 const allowedOrigins = (process.env.FRONTEND_URL || "").split(",");
 
-// CORS Configuration
+// CORS Configuration for Express
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    console.error(`Blocked by CORS: ${origin}`);
-    return callback(new Error("Not allowed by CORS"));
-  },
+  origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Allow cookies and credentials
 }));
