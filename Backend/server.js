@@ -8,12 +8,24 @@ const { Server } = require("socket.io");
 
 const app = express();
 
-// Middleware
-const allowedOrigins = (process.env.FRONTEND_URL || "").split(",");
+// List of allowed origins
+const allowedOrigins = [
+  "http://localhost:3000",       // Local frontend
+  "https://esl.aminenotes.com", // Production frontend
+  "https://esl-bobathebots-projects.vercel.app", // Vercel deployment
+  "https://esl-git-master-bobathebots-projects.vercel.app", // Vercel preview
+  "http://192.168.1.223:58139", // Example local network IP
+];
 
-// CORS Configuration for Express
+// CORS Configuration
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    console.error(`Blocked by CORS: ${origin}`);
+    return callback(new Error("Not allowed by CORS"));
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Allow cookies and credentials
 }));
