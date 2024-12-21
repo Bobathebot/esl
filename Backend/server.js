@@ -89,7 +89,16 @@ app.use("/api/notifications", notificationRoutes);
 
 // Redirect to frontend for student exam routes
 app.get("/student/exam/:id", (req, res) => {
-  res.redirect(`${process.env.FRONTEND_URL}/student/exam/${req.params.id}`);
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+  const examId = req.params.id;
+
+  if (!examId) {
+    return res.status(400).json({ error: "Exam ID is required." });
+  }
+
+  const redirectUrl = `${frontendUrl}/student/exam/${examId}`;
+  console.log(`Redirecting to: ${redirectUrl}`);
+  res.redirect(redirectUrl);
 });
 
 // Default route for unknown paths
