@@ -1,75 +1,45 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
-import { io } from "socket.io-client";
-import LoginPage from "./pages/LoginPage";
-import TeacherDashboardLayout from "./components/TeacherDashboardLayout";
-import ManageQuestions from "./pages/ManageQuestions";
-import ManageStudents from "./pages/ManageStudents";
-import Performance from "./pages/Performance";
-import DetailedPerformance from "./pages/DetailedPerformance";
-import Notifications from "./pages/Notifications";
-import Summary from "./pages/Summary";
-import NotFound from "./pages/NotFound";
-import ErrorBoundary from "./components/ErrorBoundary";
-import StudentLoginPage from "./pages/StudentLoginPage";
-import StudentExamPage from "./pages/StudentExamPage";
+// src/App.js
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Box, CssBaseline, Toolbar } from '@mui/material';
+import SideMenu from './components/SideMenu';
+import AppNavbar from './components/AppNavbar';
+import Dashboard from './pages/Dashboard';
+import Questions from './pages/Questions';
+import Students from './pages/Students';
+import Settings from './pages/Settings';
 
-function App() {
-  useEffect(() => {
-    const socket = io(process.env.REACT_APP_BACKEND_URL || "https://esl-an62.onrender.com", {
-      transports: ["websocket", "polling"],
-    });
-
-    socket.on("connect", () => {
-      console.log("Connected to Socket.io server", socket.id);
-    });
-
-    socket.on("connect_error", (err) => {
-      console.error("Socket.io connection error:", err.message);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Disconnected from Socket.io server");
-    });
-
-    socket.on("notification", (data) => {
-      console.log("Received notification:", data);
-      // Handle notification logic here
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
+const App = () => {
   return (
-    <Router>
-      <ErrorBoundary>
-        <Routes>
-          {/* Teacher Login */}
-          <Route path="/" element={<LoginPage />} />
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
 
-          {/* Teacher Dashboard */}
-          <Route path="/teacher" element={<TeacherDashboardLayout />}>
-            <Route index element={<Summary />} />
-            <Route path="questions" element={<ManageQuestions />} />
-            <Route path="students" element={<ManageStudents />} />
-            <Route path="performance" element={<Performance />} />
-            <Route path="performance/:studentId" element={<DetailedPerformance />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="settings" element={<div>Settings Page (To Be Implemented)</div>} />
-          </Route>
+      {/* Sidebar */}
+      <SideMenu />
 
-          {/* Student Pages */}
-          <Route path="/student/login" element={<StudentLoginPage />} />
-          <Route path="/student/exam/:examId" element={<StudentExamPage />} />
+      {/* Main Content */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          minHeight: '100vh',
+          backgroundColor: (theme) => theme.palette.background.default,
+        }}
+      >
+        <AppNavbar />
+        <Toolbar />
 
-          {/* Not Found */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </ErrorBoundary>
-    </Router>
+        <Box sx={{ p: 3 }}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/questions" element={<Questions />} />
+            <Route path="/students" element={<Students />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </Box>
+      </Box>
+    </Box>
   );
-}
+};
 
 export default App;
