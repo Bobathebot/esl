@@ -13,10 +13,10 @@ const StudentExamPage = () => {
   const [hasStarted, setHasStarted] = useState(false);
 
   const studentEmail = sessionStorage.getItem("studentEmail");
-  const studentStudentId = sessionStorage.getItem("studentId");
+  const studentId = sessionStorage.getItem("studentId");
 
   useEffect(() => {
-    if (!studentEmail || !studentStudentId) {
+    if (!studentEmail || !studentId) {
       navigate(`/student/login?examId=${examId}`);
       return;
     }
@@ -39,7 +39,7 @@ const StudentExamPage = () => {
     };
 
     fetchExam();
-  }, [examId, navigate, studentEmail, studentStudentId]);
+  }, [examId, navigate, studentEmail, studentId]);
 
   useEffect(() => {
     let timer;
@@ -52,9 +52,9 @@ const StudentExamPage = () => {
   }, [hasStarted, timeLeft]);
 
   const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s < 10 ? "0" : ""}${s}`;
+    const minutes = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${minutes}:${sec < 10 ? "0" : ""}${sec}`;
   };
 
   const handleAnswerChange = (questionId, value) => {
@@ -99,23 +99,21 @@ const StudentExamPage = () => {
     <div className="p-6 bg-yellow-50 min-h-screen flex items-center justify-center">
       <div className="max-w-4xl w-full bg-white rounded-3xl shadow-xl overflow-hidden">
         {!hasStarted ? (
-          <>
-            <div className="p-8 text-center bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white rounded-t-3xl">
-              <h1 className="text-3xl font-bold mb-4">Exam Information</h1>
-              <p className="text-lg mb-2">
-                <strong>Deadline:</strong> {new Date(exam.deadline).toLocaleString()}
-              </p>
-              <p className="text-lg mb-4">
-                <strong>Duration:</strong> {exam.duration} minutes
-              </p>
-              <button
-                onClick={startExam}
-                className="bg-white text-yellow-600 px-6 py-3 rounded-full font-semibold shadow-md hover:bg-yellow-100 transition"
-              >
-                Start Exam
-              </button>
-            </div>
-          </>
+          <div className="p-8 text-center bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white rounded-t-3xl">
+            <h1 className="text-3xl font-bold mb-4">Exam Information</h1>
+            <p className="text-lg mb-2">
+              <strong>Deadline:</strong> {new Date(exam.deadline).toLocaleString()}
+            </p>
+            <p className="text-lg mb-4">
+              <strong>Duration:</strong> {exam.duration} minutes
+            </p>
+            <button
+              onClick={startExam}
+              className="bg-white text-yellow-600 px-6 py-3 rounded-full font-semibold shadow-md hover:bg-yellow-100 transition"
+            >
+              Start Exam
+            </button>
+          </div>
         ) : (
           <>
             <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white py-4 px-6 rounded-t-3xl">
@@ -127,22 +125,20 @@ const StudentExamPage = () => {
               </div>
             </div>
             <div className="p-6">
-              <div className="space-y-6">
-                {exam.questions.map((q, index) => (
-                  <div key={q.id} className="bg-gray-50 p-6 rounded-xl shadow-md">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                      Q{index + 1}. {q.question}
-                    </h3>
-                    <textarea
-                      className="w-full border rounded-md p-4 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                      rows="4"
-                      placeholder="Type your answer here..."
-                      value={answers[q.id] || ""}
-                      onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                    ></textarea>
-                  </div>
-                ))}
-              </div>
+              {exam.questions.map((q, index) => (
+                <div key={q.id} className="bg-gray-50 p-6 rounded-xl shadow-md">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                    Q{index + 1}. {q.question}
+                  </h3>
+                  <textarea
+                    className="w-full border rounded-md p-4 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    rows="4"
+                    placeholder="Type your answer here..."
+                    value={answers[q.id] || ""}
+                    onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+                  ></textarea>
+                </div>
+              ))}
               <button
                 onClick={submitExam}
                 className={`mt-6 w-full py-3 rounded-full text-white font-semibold ${
